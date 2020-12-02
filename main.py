@@ -23,7 +23,12 @@ virus = pygame.image.load("coronavirus.png")
 virusX = random.randint(60,720)
 virusY = random.randint(0,250)
 
+bullet = pygame.image.load("bullet.png")
+bulletY=0;
+bulletX=0;
+
 background = pygame.image.load("battlefield.png")
+background = pygame.transform.scale(background, (800, 600))
 
 
 def drawPlayer(x , y ):
@@ -31,6 +36,9 @@ def drawPlayer(x , y ):
 
 def drawVirus(x,y):
     game_screen.blit(virus, (x, y))
+
+def drawBullet(x,y):
+    game_screen.blit(bullet, (x, y))
 
 def checkBoundaries(x, y):
     if x < 0:
@@ -58,6 +66,11 @@ while running:
                 player_offset = -0.5
             if event.key == pygame.K_RIGHT:
                 player_offset = 0.5
+            if event.key == pygame.K_SPACE:
+                bulletY=playerY
+                bulletX=playerX
+                drawBullet(bulletX, bulletY)
+
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                 player_offset = 0
@@ -73,8 +86,10 @@ while running:
         virusY = 550
     virusX += virus_offsetX
     virusY += virus_offsetY
+    bulletY += -1;
 
 
     drawPlayer(playerX, playerY )
     drawVirus(virusX, virusY)
+    drawBullet(bulletX, bulletY)
     pygame.display.update()
